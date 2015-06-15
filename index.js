@@ -232,6 +232,11 @@ module.exports.write = function write(destPath, options) {
         }
         comment = comment.replace(/sourceMappingURL=\.*/, 'sourceMappingURL=' + sourceMappingURLPrefix);
       }
+      
+      if(options.sourceMappingURLBase) {
+        var urlBaseRegexp = new RegExp('sourceMappingURL=../' + destPath + '/');
+        comment = comment.replace(urlBaseRegexp, 'sourceMappingURL=' + options.sourceMappingURLBase);
+      }
     }
 
     // append source map comment
