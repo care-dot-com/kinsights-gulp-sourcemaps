@@ -158,9 +158,9 @@ module.exports.write = function write(destPath, options) {
 
     var sourceMap = file.sourceMap;
     // fix paths if Windows style paths
-    sourceMap.file = unixStylePath(file.relative);
+    sourceMap.file = options && options.standalone ? bareFilename(file.relative) : unixStylePath(file.relative);
     sourceMap.sources = sourceMap.sources.map(function(filePath) {
-      return unixStylePath(filePath);
+      return options && options.standalone ? bareFilename(filePath) : unixStylePath(filePath);
     });
 
     if (options.sourceRoot) {
@@ -252,4 +252,8 @@ module.exports.write = function write(destPath, options) {
 
 function unixStylePath(filePath) {
   return filePath.split(path.sep).join('/');
+}
+
+function bareFilename(filePath) {
+  return filePath.split('/').slice(-1)[0];
 }
